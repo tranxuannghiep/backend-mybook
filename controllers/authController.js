@@ -113,7 +113,6 @@ exports.updatePassword = catchAsync(async (req, res) => {
 
 exports.deleteUser = catchAsync(async (req, res) => {
   const { params } = req.body;
-  console.log(params);
   await BookSchema.deleteMany({ author: { $in: params } });
   await UserSchema.deleteMany({ _id: { $in: params } });
   res.status(200).json({
@@ -163,6 +162,29 @@ exports.uploadAvatar = catchAsync(async (req, res) => {
     },
     { new: true }
   );
+  res.json({
+    success: true,
+    data: user,
+  });
+});
+
+
+exports.getUserById = catchAsync(async (req, res) => {
+  const { userId } = req.params;
+  const user = await UserSchema.findById(userId);
+  if (!user) throw new ApiError(404, "Not Found");
+  res.json({ success: true, data: user });
+});
+
+exports.updateUser = catchAsync(async (req, res) => {
+  const { userId } = req.params;
+  const { age, email, gender, name, role } = req.body;
+  const user = await UserSchema.findByIdAndUpdate(
+    userId,
+    { age, email, gender, name, role },
+    { new: true }
+  );
+
   res.json({
     success: true,
     data: user,
