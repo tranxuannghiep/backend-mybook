@@ -13,7 +13,7 @@ const uploadMongo = require("../middleware/uploadMongo");
 const router = express.Router();
 
 router.post("/", jwtAuth, createBook);
-router.get("/", getBookList);
+router.post("/all", getBookList);
 router.get("/:id", getBookById);
 router.delete("/:id", deleteBook);
 router.patch("/:id", updateBook);

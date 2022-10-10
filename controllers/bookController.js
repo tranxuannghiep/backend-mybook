@@ -44,11 +44,11 @@ exports.getBookList = catchAsync(async (req, res) => {
     populate: [
       {
         path: "author",
-        select: "name email -_id",
+        select: "name email",
       },
       {
         path: "category",
-        select: "name description -_id",
+        select: "name description",
       },
     ],
     sort,
