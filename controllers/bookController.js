@@ -21,6 +21,7 @@ exports.getBookList = catchAsync(async (req, res) => {
   const {
     title,
     description,
+    category,
     limit = 10,
     page = 1,
     sortBy,
@@ -34,6 +35,9 @@ exports.getBookList = catchAsync(async (req, res) => {
   if (description) {
     query.description = { $regex: new RegExp(description), $options: "i" };
   }
+  // if(category){
+  //   query.category._id
+  // }
   if (sortBy) {
     sort[sortBy] = orderBy || "asc";
   }
@@ -65,8 +69,8 @@ exports.getBookList = catchAsync(async (req, res) => {
 exports.getBookById = catchAsync(async (req, res) => {
   const { id } = req.params;
   const book = await BookSchema.findById(id)
-    .populate("author", "name email -_id")
-    .populate("category", "name description -_id");
+    .populate("author", "name email")
+    .populate("category", "name description");
   if (!book) {
     throw new ApiError(404, "Not Found!");
   }
@@ -77,8 +81,8 @@ exports.getBookById = catchAsync(async (req, res) => {
 });
 
 exports.deleteBook = catchAsync(async (req, res) => {
-  const { id } = req.params;
-  await BookSchema.findByIdAndDelete(id);
+  const { params } = req.body;
+  await BookSchema.deleteMany({ _id: { $in: params } });
 
   res.status(200).json({
     success: true,

@@ -15,7 +15,7 @@ const router = express.Router();
 router.post("/", jwtAuth, createBook);
 router.post("/all", getBookList);
 router.get("/:id", getBookById);
-router.delete("/:id", deleteBook);
+router.post("/delete", deleteBook);
 router.patch("/:id", updateBook);
 router.post("/upload", uploadMongo.array("image"), uploadImage);
 
