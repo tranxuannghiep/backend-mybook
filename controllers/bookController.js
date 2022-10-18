@@ -117,7 +117,7 @@ exports.uploadImage = catchAsync(async (req, res) => {
       $push: {
         image: {
           $each: [
-            ...req.files.map((val) => `${process.env.HOST}/${val.filename}`),
+            ...req.files.map((val) => `${process.env.HOST}/api/v1/file/${val.filename}`),
           ],
         },
       },

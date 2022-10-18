@@ -8,6 +8,7 @@ exports.jwtAuth = (req, res, next) => {
   if (!token) throw new ApiError(401, "Unauthorized");
   try {
     const user = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(user)
     req.user = user;
     next();
   } catch (error) {
