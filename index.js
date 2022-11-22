@@ -7,6 +7,7 @@ const authRoutes = require("./routes/authRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const bookRoutes = require("./routes/bookRoutes");
 const fileRoutes = require("./routes/fileRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
 const MailService = require("./utils/MailService");
 MailService.init();
 
@@ -19,6 +20,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/book", bookRoutes);
 app.use("/api/v1/file", fileRoutes);
+app.use("/api/v1/auth", paymentRoutes)
 
 app.use(catchError);
 app.listen(process.env.PORT, () => {
