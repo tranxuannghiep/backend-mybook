@@ -26,6 +26,9 @@ exports.getBookList = catchAsync(async (req, res) => {
     page = 1,
     sortBy,
     orderBy,
+    priceMin,
+    priceMax,
+    author
   } = req.body;
   const query = {};
   const sort = {};
@@ -35,11 +38,20 @@ exports.getBookList = catchAsync(async (req, res) => {
   if (description) {
     query.description = { $regex: new RegExp(description), $options: "i" };
   }
-  // if(category){
-  //   query.category._id
-  // }
+  if (category) {
+    query.category = category
+  }
   if (sortBy) {
     sort[sortBy] = orderBy || "asc";
+  }
+  if (priceMin) {
+    query.price = { $gte: priceMin }
+  }
+  if (priceMax) {
+    query.price = { $lte: priceMax }
+  }
+  if (author) {
+    query.author = author
   }
   const data = await BookSchema.paginate(query, {
     limit: Number(limit),
