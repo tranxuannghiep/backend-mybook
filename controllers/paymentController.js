@@ -31,12 +31,24 @@ exports.getPaymentAll = catchAsync(async (req, res) => {
 
     const topSeller = listProducts.sort((a, b) => -a.quantity + b.quantity).slice(0, 5)
     const topPrice = listProducts.sort((a, b) => -a.quantity * a.price + b.quantity * b.price).slice(0, 5)
+    const highPriceList = listProducts.sort((a, b) => -a.price + b.price).slice(0, 5)
+    const lowPriceList = listProducts.sort((a, b) => a.price - b.price).slice(0, 5)
+    const highPrice = highPriceList[0].price
+    const lowPrice = lowPriceList[0].price
+    const totalProduct = listProducts.reduce((acc, val) => acc + val.quantity * val.price, 0)
+    const maxQuantity = listProducts.reduce((acc, val) => acc + val.quantity, 0)
 
     res.status(200).json({
         success: true,
         data: {
             topSeller,
-            topPrice
+            topPrice,
+            highPriceList,
+            lowPriceList,
+            highPrice,
+            lowPrice,
+            totalProduct,
+            maxQuantity
         },
     });
 });
