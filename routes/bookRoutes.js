@@ -13,10 +13,10 @@ const uploadMongo = require("../middleware/uploadMongo");
 const router = express.Router();
 
 router.post("", jwtAuth, createBook);
-router.post("/all", getBookList);
-router.get("/:id", getBookById);
-router.post("/delete", deleteBook);
-router.patch("/:id", updateBook);
+router.post("/all", jwtAuth, getBookList);
+router.get("/:id", jwtAuth, getBookById);
+router.post("/delete", jwtAuth, deleteBook);
+router.patch("/:id", jwtAuth, updateBook);
 router.post("/upload", uploadMongo.array("image"), uploadImage);
 
 module.exports = router;

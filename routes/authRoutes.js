@@ -11,7 +11,7 @@ const {
   getUserById,
   updateUser,
 } = require("../controllers/authController");
-const { jwtAuth } = require("../middleware/jwtAuth");
+const { jwtAuth, jwtAuthAdmin } = require("../middleware/jwtAuth");
 const uploadMongo = require("../middleware/uploadMongo");
 
 const router = express.Router();
@@ -21,10 +21,10 @@ router.post("/login", login);
 router.post("/forgotpassword", forgotPassword);
 router.post("/resetpassword", resetPassword);
 router.patch("/updatepassword", jwtAuth, updatePassword);
-router.post("/delete", deleteUser);
-router.post("/", getUserList);
-router.get("/user/:userId", getUserById);
-router.patch("/user/:userId", updateUser);
+router.post("/delete", jwtAuthAdmin, deleteUser);
+router.post("/", jwtAuthAdmin, getUserList);
+router.get("/user/:userId", jwtAuth, getUserById);
+router.patch("/user/:userId", jwtAuth, updateUser);
 router.post("/upload", uploadMongo.single("avatar"), uploadAvatar);
 
 module.exports = router;
