@@ -18,8 +18,6 @@ exports.createBook = catchAsync(async (req, res) => {
 });
 
 exports.getBookList = catchAsync(async (req, res) => {
-  const userId = req.user.id;
-  const role = req.user.role
   const {
     title,
     description,
@@ -30,6 +28,7 @@ exports.getBookList = catchAsync(async (req, res) => {
     orderBy,
     priceMin,
     priceMax,
+    author
   } = req.body;
   const query = {};
   const sort = {};
@@ -51,8 +50,8 @@ exports.getBookList = catchAsync(async (req, res) => {
   if (priceMax) {
     query.price = { $lte: priceMax }
   }
-  if (role === "seller") {
-    query.author = userId
+  if (author) {
+    query.author = author
   }
   else {
     delete query.author

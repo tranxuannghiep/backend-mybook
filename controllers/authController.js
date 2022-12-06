@@ -45,7 +45,8 @@ exports.login = catchAsync(async (req, res) => {
   res.json({
     success: true,
     token,
-    role: existedUser.role
+    role: existedUser.role,
+    id: existedUser._id
   });
 });
 
