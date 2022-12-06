@@ -21,6 +21,9 @@ const paymentSchema = new Schema(
         },
         listProducts: {
             type: [Object],
+        },
+        status: {
+            type: String
         }
     },
     {

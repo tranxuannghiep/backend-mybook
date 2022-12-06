@@ -5,8 +5,25 @@ const PaymentSchema = require("../models/Payment");
 exports.payment = catchAsync(async (req, res) => {
     const { name, address, phone, totalPrice, listProducts } = req.body;
     const payment = await PaymentSchema.create({
-        name, address, phone, totalPrice, listProducts
+        name, address, phone, totalPrice, listProducts, status: "transportation"
     });
+
+    res.status(200).json({
+        success: true,
+        data: payment,
+    });
+});
+
+exports.shipping = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+    const payment = await PaymentSchema.findByIdAndUpdate(
+        id,
+        {
+            status
+        },
+        { new: true }
+    );
 
     res.status(200).json({
         success: true,

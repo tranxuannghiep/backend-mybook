@@ -20,7 +20,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/book", bookRoutes);
 app.use("/api/v1/file", fileRoutes);
-app.use("/api/v1/auth", paymentRoutes)
+app.use("/api/v1/auth/payment", paymentRoutes)
 
 app.use(catchError);
 app.listen(process.env.PORT, () => {

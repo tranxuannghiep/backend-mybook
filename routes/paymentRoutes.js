@@ -1,13 +1,14 @@
 const express = require("express");
-const { payment, getPaymentAll } = require("../controllers/paymentController");
+const { payment, getPaymentAll, shipping } = require("../controllers/paymentController");
 
 const { jwtAuthAdmin, jwtAuth } = require("../middleware/jwtAuth");
 
 
 const router = express.Router();
 
-router.post("/payment", jwtAuth, payment);
-router.get("/payment", jwtAuthAdmin, getPaymentAll);
+router.post("", jwtAuth, payment);
+router.get("", jwtAuthAdmin, getPaymentAll);
+router.post("/ship/:id", jwtAuth, shipping);
 
 
 
