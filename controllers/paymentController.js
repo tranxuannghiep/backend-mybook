@@ -34,7 +34,7 @@ exports.shipping = catchAsync(async (req, res) => {
 
 exports.getPaymentAll = catchAsync(async (req, res) => {
     const paymentList = await PaymentSchema.find()
-    const listCart = paymentList.map(product => product.listProducts).flat()
+    const listCart = paymentList.filter(product => product.status === "success").map(product => product.listProducts).flat()
     let listProducts = []
     listCart.forEach(cart => {
         const idx = listProducts.findIndex(val => val.cartId === cart.cartId)
