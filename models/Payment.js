@@ -16,15 +16,19 @@ const paymentSchema = new Schema(
             type: String,
             required: [true, "phone is required"],
         },
-        totalPrice: {
-            type: String,
-        },
-        listProducts: {
-            type: [Object],
+        product: {
+            type: Object,
         },
         status: {
             type: String
+        },
+        purchaseDate: {
+            type: String
+        },
+        deliveryDate: {
+            type: String
         }
+
     },
     {
         collection: "payment",

@@ -192,3 +192,12 @@ exports.updateUser = catchAsync(async (req, res) => {
     data: user,
   });
 });
+
+exports.getSeller = catchAsync(async (req, res) => {
+  const sellers = await UserSchema.find({ role: { $in: ["seller", "admin"] } });
+
+  res.json({
+    success: true,
+    data: sellers,
+  });
+});

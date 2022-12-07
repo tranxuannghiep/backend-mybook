@@ -10,6 +10,7 @@ const {
   uploadAvatar,
   getUserById,
   updateUser,
+  getSeller,
 } = require("../controllers/authController");
 const { jwtAuth, jwtAuthAdmin } = require("../middleware/jwtAuth");
 const uploadMongo = require("../middleware/uploadMongo");
@@ -25,6 +26,7 @@ router.post("/delete", jwtAuthAdmin, deleteUser);
 router.post("/", jwtAuthAdmin, getUserList);
 router.get("/user/:userId", jwtAuth, getUserById);
 router.patch("/user/:userId", jwtAuth, updateUser);
+router.get("/seller", jwtAuthAdmin, getSeller);
 router.post("/upload", uploadMongo.single("avatar"), uploadAvatar);
 
 module.exports = router;
