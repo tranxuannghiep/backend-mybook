@@ -42,10 +42,16 @@ exports.login = catchAsync(async (req, res) => {
     process.env.JWT_SECRET,
     { expiresIn: "1h" }
   );
-  res.json({
+  // res.json({
+  //   success: true,
+  //   token,
+  //   role: existedUser.role
+  // });
+  res.cookie("access_token", token, {
+    httpOnly: true,
+    secure: false,
+  }).json({
     success: true,
-    token,
-    role: existedUser.role
   });
 });
 

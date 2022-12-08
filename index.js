@@ -10,11 +10,15 @@ const fileRoutes = require("./routes/fileRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const mysql_userRoutes = require("./routes/mysql/mysql_userRoutes");
 const mysql_bookRoutes = require("./routes/mysql/mysql_bookRoutes");
+const cookieParser = require("cookie-parser");
 const MailService = require("./utils/MailService");
 MailService.init();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  credentials: true
+}));
+app.use(cookieParser());
 app.use(express.json());
 Mongo.connect();
 
