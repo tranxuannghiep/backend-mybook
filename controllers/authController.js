@@ -42,9 +42,12 @@ exports.login = catchAsync(async (req, res) => {
     process.env.JWT_SECRET,
     { expiresIn: "1h" }
   );
-  res.json({
+  res.cookie("access_token", token, {
+    httpOnly: true,
+    secure: false
+  })
+  return res.json({
     success: true,
-    token,
     role: existedUser.role,
     id: existedUser._id
   });
@@ -199,5 +202,25 @@ exports.getSeller = catchAsync(async (req, res) => {
   res.json({
     success: true,
     data: sellers,
+  });
+});
+
+exports.logout = catchAsync(async (req, res) => {
+  res.cookie('access_token', "none", {
+    expires: new Date(Date.now() + 5 * 1000),
+    httpOnly: true,
+  })
+
+  res.status(200)
+    .json({ success: true, message: 'User logged out successfully' })
+});
+
+exports.getCurrentUser = catchAsync(async (req, res) => {
+  const { role, id } = req.user
+
+  return res.json({
+    success: true,
+    role,
+    id
   });
 });

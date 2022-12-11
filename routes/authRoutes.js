@@ -11,6 +11,8 @@ const {
   getUserById,
   updateUser,
   getSeller,
+  logout,
+  getCurrentUser
 } = require("../controllers/authController");
 const { jwtAuth, jwtAuthAdmin } = require("../middleware/jwtAuth");
 const uploadMongo = require("../middleware/uploadMongo");
@@ -19,6 +21,8 @@ const router = express.Router();
 
 router.post("/register", register);
 router.post("/login", login);
+router.get("/logout", logout);
+router.get("/token", jwtAuth, getCurrentUser);
 router.post("/forgotpassword", forgotPassword);
 router.post("/resetpassword", resetPassword);
 router.patch("/updatepassword", jwtAuth, updatePassword);

@@ -9,10 +9,17 @@ const bookRoutes = require("./routes/bookRoutes");
 const fileRoutes = require("./routes/fileRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const MailService = require("./utils/MailService");
+const cookieParser = require("cookie-parser");
 MailService.init();
 
 const app = express();
-app.use(cors());
+app.use(cors(
+  {
+    origin: true,
+    credentials: true,
+  }
+));
+app.use(cookieParser());
 app.use(express.json());
 Mongo.connect();
 
