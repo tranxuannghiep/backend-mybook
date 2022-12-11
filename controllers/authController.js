@@ -42,16 +42,15 @@ exports.login = catchAsync(async (req, res) => {
     process.env.JWT_SECRET,
     { expiresIn: "1h" }
   );
-  // res.json({
-  //   success: true,
-  //   token,
-  //   role: existedUser.role
-  // });
+
   res.cookie("access_token", token, {
     httpOnly: true,
-    secure: false,
-  }).json({
+    secure: false
+  })
+  return res.json({
     success: true,
+    role: existedUser.role,
+    id: existedUser._id
   });
 });
 
@@ -128,7 +127,6 @@ exports.deleteUser = catchAsync(async (req, res) => {
 });
 
 exports.getUserList = catchAsync(async (req, res) => {
-  // const userList = await UserSchema.find({}).populate("books", "title -author");
   const { name, email, role, limit = 10, page = 1, sortBy, orderBy } = req.body;
   const query = {};
   const sort = {};
@@ -152,7 +150,7 @@ exports.getUserList = catchAsync(async (req, res) => {
   });
   const { docs } = data;
   delete data.docs;
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     data: docs,
     paginate: { ...data },
@@ -196,4 +194,14 @@ exports.updateUser = catchAsync(async (req, res) => {
     success: true,
     data: user,
   });
+});
+
+exports.logout = catchAsync(async (req, res) => {
+  res.cookie('access_token', "none", {
+    expires: new Date(Date.now() + 5 * 1000),
+    httpOnly: true,
+  })
+
+  res.status(200)
+    .json({ success: true, message: 'User logged out successfully' })
 });

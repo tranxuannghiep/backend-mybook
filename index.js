@@ -16,7 +16,9 @@ MailService.init();
 
 const app = express();
 app.use(cors({
-  credentials: true
+  origin: true,
+  credentials: true,
+  // exposedHeaders: ["set-cookie"]
 }));
 app.use(cookieParser());
 app.use(express.json());

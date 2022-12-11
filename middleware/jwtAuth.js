@@ -3,7 +3,6 @@ const ApiError = require("../utils/ApiError");
 
 exports.jwtAuth = (req, res, next) => {
   const token = req.cookies.access_token;
-  console.log(token)
   if (!token) throw new ApiError(401, "Unauthorized");
   try {
     const user = jwt.verify(token, process.env.JWT_SECRET);
@@ -16,7 +15,6 @@ exports.jwtAuth = (req, res, next) => {
 
 exports.jwtAuthAdmin = (req, res, next) => {
   const token = req.cookies.access_token;
-  console.log(token)
   if (!token) throw new ApiError(401, "Unauthorized");
   try {
     const user = jwt.verify(token, process.env.JWT_SECRET);
