@@ -13,12 +13,12 @@ const cookieParser = require("cookie-parser");
 MailService.init();
 
 const app = express();
-app.use(cors(
-  {
+app.use(
+  cors({
     origin: true,
     credentials: true,
-  }
-));
+  })
+);
 app.use(cookieParser());
 app.use(express.json());
 Mongo.connect();
@@ -27,9 +27,24 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/book", bookRoutes);
 app.use("/api/v1/file", fileRoutes);
-app.use("/api/v1/auth/payment", paymentRoutes)
+app.use("/api/v1/auth/payment", paymentRoutes);
 
 app.use(catchError);
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
+});
+
+const socket = require("socket.io");
+
+const io = socket(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    credentials: true,
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("a user connected");
+
+  // handle socket events here
 });
