@@ -10,6 +10,7 @@ const fileRoutes = require("./routes/fileRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const MailService = require("./utils/MailService");
 const cookieParser = require("cookie-parser");
+const cookie = require("cookie");
 MailService.init();
 
 const app = express();
@@ -43,8 +44,14 @@ const io = socket(server, {
   },
 });
 
-io.on("connection", (socket) => {
-  console.log("a user connected");
-
+io.on("connection", (client) => {
+  const cookies = cookie.parse(client.request.headers.cookie || "");
+  const accessToken = cookies["access_token"];
+  console.log(accessToken);
   // handle socket events here
+  client.join("room1");
+  io.to("room1").emit("message", "A user has joined the room");
+  client.on("disconnect", () => {
+    console.log("a user disconnect");
+  });
 });
